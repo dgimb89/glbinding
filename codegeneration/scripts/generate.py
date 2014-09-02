@@ -29,27 +29,7 @@ from gen_versions import *
 from gen_meta import *
 from gen_test import *
 
-def generate(inputfile, patchfile, targetdir, revisionfile):
-
-    # preparing
-
-    print ""
-    print "PREPARING"
-
-    api     = "gl" # ToDo: other apis are untested yet
-
-    print "checking revision"
-    file = open(revisionfile, "r")
-    revision = int(file.readline())
-    file.close()    
-    print " revision is " + str(revision)
-
-    print "loading " + inputfile
-    tree       = ET.parse(inputfile)
-    registry   = tree.getroot()
-
-    # parsing
-
+def generateAPI(api, registry, patchfile, includedir, sourcedir):
     print ""
     print "PARSING (" + api + " API)"
 
@@ -147,15 +127,10 @@ def generate(inputfile, patchfile, targetdir, revisionfile):
     print ""
     print "GENERATING"
 
-    includedir = targetdir + "/include/glbinding/"
-    sourcedir  = targetdir + "/source/"
-
     includedir_api = includedir + api + "/"
     sourcedir_api  = sourcedir  + api + "/"
 
     # Generate API namespace classes (gl, gles1, gles2, ...) - ToDo: for now only gl
-
-    genRevision                    (     revision,           sourcedir,      "glrevision.h")
 
     genExtensions                  (api, extensions,         includedir_api, "extension.h")
 
@@ -190,7 +165,7 @@ def generate(inputfile, patchfile, targetdir, revisionfile):
     genVersions                    (features,           sourcedir,  "Version_ValidVersions.cpp")
 
     # ToDo: the generation of enum to/from string will probably be unified...
-    genMetaMaps		               (enums,              sourcedir,  "Meta_Maps.h", bitfGroups)
+    genMetaMaps		           (enums,              sourcedir,  "Meta_Maps.h", bitfGroups)
     genMetaStringsByBitfield       (bitfGroups,         sourcedir,  "Meta_StringsByBitfield.cpp")
     genMetaBitfieldByString        (bitfGroups,         sourcedir,  "Meta_BitfieldsByString.cpp")
     genMetaStringsByEnum           (enums,              sourcedir,  "Meta_StringsByBoolean.cpp",  "GLboolean")
@@ -208,6 +183,34 @@ def generate(inputfile, patchfile, targetdir, revisionfile):
 
 
     print ""
+
+def generate(inputfile, patchfile, targetdir, revisionfile):
+
+    # preparing
+
+    print ""
+    print "PREPARING"
+
+    print "checking revision"
+    file = open(revisionfile, "r")
+    revision = int(file.readline())
+    file.close()    
+    print " revision is " + str(revision)
+
+    print "loading " + inputfile
+    tree       = ET.parse(inputfile)
+    registry   = tree.getroot()
+    
+    includedir = targetdir + "/include/glbinding/"
+    sourcedir  = targetdir + "/source/"
+
+    # parsing
+    
+    # generateAPI("gles", registry, patchfile, includedir, sourcedir)
+    generateAPI("gles2", registry, patchfile, includedir, sourcedir)
+    generateAPI("gl", registry, patchfile, includedir, sourcedir)
+
+    genRevision(revision, sourcedir, "glrevision.h")
 
 
 def main(argv):

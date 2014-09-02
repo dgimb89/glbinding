@@ -1,0 +1,235 @@
+#pragma once
+
+#include <glbinding/gles2/nogl.h>
+#include <glbinding/gles2/types.h>
+
+#include <glbinding/SharedBitfield.hpp>
+
+namespace gles2
+{
+
+enum class AttribMask : unsigned int
+{
+    GL_DEPTH_BUFFER_BIT   = 0x00000100,
+    GL_STENCIL_BUFFER_BIT = 0x00000400,
+    GL_COLOR_BUFFER_BIT   = 0x00004000,
+};
+
+
+enum class BufferAccessMask : unsigned int
+{
+    GL_MAP_READ_BIT              = 0x0001,
+    GL_MAP_WRITE_BIT             = 0x0002,
+    GL_MAP_INVALIDATE_RANGE_BIT  = 0x0004,
+    GL_MAP_INVALIDATE_BUFFER_BIT = 0x0008,
+    GL_MAP_FLUSH_EXPLICIT_BIT    = 0x0010,
+    GL_MAP_UNSYNCHRONIZED_BIT    = 0x0020,
+};
+
+
+enum class BufferBitQCOM : unsigned int
+{
+    GL_COLOR_BUFFER_BIT0_QCOM       = 0x00000001,
+    GL_COLOR_BUFFER_BIT1_QCOM       = 0x00000002,
+    GL_COLOR_BUFFER_BIT2_QCOM       = 0x00000004,
+    GL_COLOR_BUFFER_BIT3_QCOM       = 0x00000008,
+    GL_COLOR_BUFFER_BIT4_QCOM       = 0x00000010,
+    GL_COLOR_BUFFER_BIT5_QCOM       = 0x00000020,
+    GL_COLOR_BUFFER_BIT6_QCOM       = 0x00000040,
+    GL_COLOR_BUFFER_BIT7_QCOM       = 0x00000080,
+    GL_DEPTH_BUFFER_BIT0_QCOM       = 0x00000100,
+    GL_DEPTH_BUFFER_BIT1_QCOM       = 0x00000200,
+    GL_DEPTH_BUFFER_BIT2_QCOM       = 0x00000400,
+    GL_DEPTH_BUFFER_BIT3_QCOM       = 0x00000800,
+    GL_DEPTH_BUFFER_BIT4_QCOM       = 0x00001000,
+    GL_DEPTH_BUFFER_BIT5_QCOM       = 0x00002000,
+    GL_DEPTH_BUFFER_BIT6_QCOM       = 0x00004000,
+    GL_DEPTH_BUFFER_BIT7_QCOM       = 0x00008000,
+    GL_STENCIL_BUFFER_BIT0_QCOM     = 0x00010000,
+    GL_STENCIL_BUFFER_BIT1_QCOM     = 0x00020000,
+    GL_STENCIL_BUFFER_BIT2_QCOM     = 0x00040000,
+    GL_STENCIL_BUFFER_BIT3_QCOM     = 0x00080000,
+    GL_STENCIL_BUFFER_BIT4_QCOM     = 0x00100000,
+    GL_STENCIL_BUFFER_BIT5_QCOM     = 0x00200000,
+    GL_STENCIL_BUFFER_BIT6_QCOM     = 0x00400000,
+    GL_STENCIL_BUFFER_BIT7_QCOM     = 0x00800000,
+    GL_MULTISAMPLE_BUFFER_BIT0_QCOM = 0x01000000,
+    GL_MULTISAMPLE_BUFFER_BIT1_QCOM = 0x02000000,
+    GL_MULTISAMPLE_BUFFER_BIT2_QCOM = 0x04000000,
+    GL_MULTISAMPLE_BUFFER_BIT3_QCOM = 0x08000000,
+    GL_MULTISAMPLE_BUFFER_BIT4_QCOM = 0x10000000,
+    GL_MULTISAMPLE_BUFFER_BIT5_QCOM = 0x20000000,
+    GL_MULTISAMPLE_BUFFER_BIT6_QCOM = 0x40000000,
+    GL_MULTISAMPLE_BUFFER_BIT7_QCOM = 0x80000000,
+};
+
+
+enum class ClearBufferMask : unsigned int
+{
+    GL_DEPTH_BUFFER_BIT       = 0x00000100, // reuse from AttribMask
+    GL_STENCIL_BUFFER_BIT     = 0x00000400, // reuse from AttribMask
+    GL_COLOR_BUFFER_BIT       = 0x00004000, // reuse from AttribMask
+    GL_COVERAGE_BUFFER_BIT_NV = 0x00008000,
+};
+
+
+enum class ContextFlagMask : unsigned int
+{
+    GL_CONTEXT_FLAG_DEBUG_BIT_KHR = 0x00000002,
+};
+
+
+enum class MapBufferUsageMask : unsigned int
+{
+    GL_MAP_READ_BIT                  = 0x0001, // reuse from BufferAccessMask
+    GL_MAP_READ_BIT_EXT              = 0x0001,
+    GL_MAP_WRITE_BIT                 = 0x0002, // reuse from BufferAccessMask
+    GL_MAP_WRITE_BIT_EXT             = 0x0002,
+    GL_MAP_INVALIDATE_RANGE_BIT      = 0x0004, // reuse from BufferAccessMask
+    GL_MAP_INVALIDATE_RANGE_BIT_EXT  = 0x0004,
+    GL_MAP_INVALIDATE_BUFFER_BIT     = 0x0008, // reuse from BufferAccessMask
+    GL_MAP_INVALIDATE_BUFFER_BIT_EXT = 0x0008,
+    GL_MAP_FLUSH_EXPLICIT_BIT        = 0x0010, // reuse from BufferAccessMask
+    GL_MAP_FLUSH_EXPLICIT_BIT_EXT    = 0x0010,
+    GL_MAP_UNSYNCHRONIZED_BIT        = 0x0020, // reuse from BufferAccessMask
+    GL_MAP_UNSYNCHRONIZED_BIT_EXT    = 0x0020,
+};
+
+
+enum class MemoryBarrierMask : unsigned int
+{
+    GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT = 0x00000001,
+    GL_ELEMENT_ARRAY_BARRIER_BIT       = 0x00000002,
+    GL_UNIFORM_BARRIER_BIT             = 0x00000004,
+    GL_TEXTURE_FETCH_BARRIER_BIT       = 0x00000008,
+    GL_SHADER_IMAGE_ACCESS_BARRIER_BIT = 0x00000020,
+    GL_COMMAND_BARRIER_BIT             = 0x00000040,
+    GL_PIXEL_BUFFER_BARRIER_BIT        = 0x00000080,
+    GL_TEXTURE_UPDATE_BARRIER_BIT      = 0x00000100,
+    GL_BUFFER_UPDATE_BARRIER_BIT       = 0x00000200,
+    GL_FRAMEBUFFER_BARRIER_BIT         = 0x00000400,
+    GL_TRANSFORM_FEEDBACK_BARRIER_BIT  = 0x00000800,
+    GL_ATOMIC_COUNTER_BARRIER_BIT      = 0x00001000,
+    GL_SHADER_STORAGE_BARRIER_BIT      = 0x00002000,
+    GL_ALL_BARRIER_BITS                = 0xFFFFFFFF,
+};
+
+
+enum class PerformanceQueryCapsMaskINTEL : unsigned int
+{
+    GL_PERFQUERY_SINGLE_CONTEXT_INTEL = 0x00000000,
+    GL_PERFQUERY_GLOBAL_CONTEXT_INTEL = 0x00000001,
+};
+
+
+enum class SyncObjectMask : unsigned int
+{
+    GL_SYNC_FLUSH_COMMANDS_BIT       = 0x00000001,
+    GL_SYNC_FLUSH_COMMANDS_BIT_APPLE = 0x00000001,
+};
+
+
+enum class UnusedMask : unsigned int
+{
+    GL_UNUSED_BIT = 0x00000000,
+};
+
+
+enum class UseProgramStageMask : unsigned int
+{
+    GL_VERTEX_SHADER_BIT              = 0x00000001,
+    GL_VERTEX_SHADER_BIT_EXT          = 0x00000001,
+    GL_FRAGMENT_SHADER_BIT            = 0x00000002,
+    GL_FRAGMENT_SHADER_BIT_EXT        = 0x00000002,
+    GL_GEOMETRY_SHADER_BIT_EXT        = 0x00000004,
+    GL_TESS_CONTROL_SHADER_BIT_EXT    = 0x00000008,
+    GL_TESS_EVALUATION_SHADER_BIT_EXT = 0x00000010,
+    GL_COMPUTE_SHADER_BIT             = 0x00000020,
+    GL_ALL_SHADER_BITS                = 0xFFFFFFFF,
+    GL_ALL_SHADER_BITS_EXT            = 0xFFFFFFFF,
+};
+
+
+
+// import bitfields to namespace
+
+static const PerformanceQueryCapsMaskINTEL GL_PERFQUERY_SINGLE_CONTEXT_INTEL = PerformanceQueryCapsMaskINTEL::GL_PERFQUERY_SINGLE_CONTEXT_INTEL;
+static const UnusedMask GL_UNUSED_BIT = UnusedMask::GL_UNUSED_BIT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT0_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT0_QCOM;
+static const PerformanceQueryCapsMaskINTEL GL_PERFQUERY_GLOBAL_CONTEXT_INTEL = PerformanceQueryCapsMaskINTEL::GL_PERFQUERY_GLOBAL_CONTEXT_INTEL;
+static const SyncObjectMask GL_SYNC_FLUSH_COMMANDS_BIT = SyncObjectMask::GL_SYNC_FLUSH_COMMANDS_BIT;
+static const SyncObjectMask GL_SYNC_FLUSH_COMMANDS_BIT_APPLE = SyncObjectMask::GL_SYNC_FLUSH_COMMANDS_BIT_APPLE;
+static const MemoryBarrierMask GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT = MemoryBarrierMask::GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT;
+static const UseProgramStageMask GL_VERTEX_SHADER_BIT = UseProgramStageMask::GL_VERTEX_SHADER_BIT;
+static const UseProgramStageMask GL_VERTEX_SHADER_BIT_EXT = UseProgramStageMask::GL_VERTEX_SHADER_BIT_EXT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT1_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT1_QCOM;
+static const ContextFlagMask GL_CONTEXT_FLAG_DEBUG_BIT_KHR = ContextFlagMask::GL_CONTEXT_FLAG_DEBUG_BIT_KHR;
+static const MemoryBarrierMask GL_ELEMENT_ARRAY_BARRIER_BIT = MemoryBarrierMask::GL_ELEMENT_ARRAY_BARRIER_BIT;
+static const UseProgramStageMask GL_FRAGMENT_SHADER_BIT = UseProgramStageMask::GL_FRAGMENT_SHADER_BIT;
+static const UseProgramStageMask GL_FRAGMENT_SHADER_BIT_EXT = UseProgramStageMask::GL_FRAGMENT_SHADER_BIT_EXT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT2_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT2_QCOM;
+static const UseProgramStageMask GL_GEOMETRY_SHADER_BIT_EXT = UseProgramStageMask::GL_GEOMETRY_SHADER_BIT_EXT;
+static const MemoryBarrierMask GL_UNIFORM_BARRIER_BIT = MemoryBarrierMask::GL_UNIFORM_BARRIER_BIT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT3_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT3_QCOM;
+static const UseProgramStageMask GL_TESS_CONTROL_SHADER_BIT_EXT = UseProgramStageMask::GL_TESS_CONTROL_SHADER_BIT_EXT;
+static const MemoryBarrierMask GL_TEXTURE_FETCH_BARRIER_BIT = MemoryBarrierMask::GL_TEXTURE_FETCH_BARRIER_BIT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT4_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT4_QCOM;
+static const UseProgramStageMask GL_TESS_EVALUATION_SHADER_BIT_EXT = UseProgramStageMask::GL_TESS_EVALUATION_SHADER_BIT_EXT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT5_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT5_QCOM;
+static const UseProgramStageMask GL_COMPUTE_SHADER_BIT = UseProgramStageMask::GL_COMPUTE_SHADER_BIT;
+static const MemoryBarrierMask GL_SHADER_IMAGE_ACCESS_BARRIER_BIT = MemoryBarrierMask::GL_SHADER_IMAGE_ACCESS_BARRIER_BIT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT6_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT6_QCOM;
+static const MemoryBarrierMask GL_COMMAND_BARRIER_BIT = MemoryBarrierMask::GL_COMMAND_BARRIER_BIT;
+static const BufferBitQCOM GL_COLOR_BUFFER_BIT7_QCOM = BufferBitQCOM::GL_COLOR_BUFFER_BIT7_QCOM;
+static const MemoryBarrierMask GL_PIXEL_BUFFER_BARRIER_BIT = MemoryBarrierMask::GL_PIXEL_BUFFER_BARRIER_BIT;
+static const glbinding::SharedBitfield<AttribMask, ClearBufferMask> GL_DEPTH_BUFFER_BIT = AttribMask::GL_DEPTH_BUFFER_BIT;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT0_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT0_QCOM;
+static const MemoryBarrierMask GL_TEXTURE_UPDATE_BARRIER_BIT = MemoryBarrierMask::GL_TEXTURE_UPDATE_BARRIER_BIT;
+static const MemoryBarrierMask GL_BUFFER_UPDATE_BARRIER_BIT = MemoryBarrierMask::GL_BUFFER_UPDATE_BARRIER_BIT;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT1_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT1_QCOM;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT2_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT2_QCOM;
+static const MemoryBarrierMask GL_FRAMEBUFFER_BARRIER_BIT = MemoryBarrierMask::GL_FRAMEBUFFER_BARRIER_BIT;
+static const glbinding::SharedBitfield<AttribMask, ClearBufferMask> GL_STENCIL_BUFFER_BIT = AttribMask::GL_STENCIL_BUFFER_BIT;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT3_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT3_QCOM;
+static const MemoryBarrierMask GL_TRANSFORM_FEEDBACK_BARRIER_BIT = MemoryBarrierMask::GL_TRANSFORM_FEEDBACK_BARRIER_BIT;
+static const MemoryBarrierMask GL_ATOMIC_COUNTER_BARRIER_BIT = MemoryBarrierMask::GL_ATOMIC_COUNTER_BARRIER_BIT;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT4_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT4_QCOM;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT5_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT5_QCOM;
+static const MemoryBarrierMask GL_SHADER_STORAGE_BARRIER_BIT = MemoryBarrierMask::GL_SHADER_STORAGE_BARRIER_BIT;
+static const glbinding::SharedBitfield<AttribMask, ClearBufferMask> GL_COLOR_BUFFER_BIT = AttribMask::GL_COLOR_BUFFER_BIT;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT6_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT6_QCOM;
+static const ClearBufferMask GL_COVERAGE_BUFFER_BIT_NV = ClearBufferMask::GL_COVERAGE_BUFFER_BIT_NV;
+static const BufferBitQCOM GL_DEPTH_BUFFER_BIT7_QCOM = BufferBitQCOM::GL_DEPTH_BUFFER_BIT7_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_READ_BIT = BufferAccessMask::GL_MAP_READ_BIT;
+static const MapBufferUsageMask GL_MAP_READ_BIT_EXT = MapBufferUsageMask::GL_MAP_READ_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT0_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT0_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_WRITE_BIT = BufferAccessMask::GL_MAP_WRITE_BIT;
+static const MapBufferUsageMask GL_MAP_WRITE_BIT_EXT = MapBufferUsageMask::GL_MAP_WRITE_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT1_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT1_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_INVALIDATE_RANGE_BIT = BufferAccessMask::GL_MAP_INVALIDATE_RANGE_BIT;
+static const MapBufferUsageMask GL_MAP_INVALIDATE_RANGE_BIT_EXT = MapBufferUsageMask::GL_MAP_INVALIDATE_RANGE_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT2_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT2_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_INVALIDATE_BUFFER_BIT = BufferAccessMask::GL_MAP_INVALIDATE_BUFFER_BIT;
+static const MapBufferUsageMask GL_MAP_INVALIDATE_BUFFER_BIT_EXT = MapBufferUsageMask::GL_MAP_INVALIDATE_BUFFER_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT3_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT3_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_FLUSH_EXPLICIT_BIT = BufferAccessMask::GL_MAP_FLUSH_EXPLICIT_BIT;
+static const MapBufferUsageMask GL_MAP_FLUSH_EXPLICIT_BIT_EXT = MapBufferUsageMask::GL_MAP_FLUSH_EXPLICIT_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT4_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT4_QCOM;
+static const glbinding::SharedBitfield<BufferAccessMask, MapBufferUsageMask> GL_MAP_UNSYNCHRONIZED_BIT = BufferAccessMask::GL_MAP_UNSYNCHRONIZED_BIT;
+static const MapBufferUsageMask GL_MAP_UNSYNCHRONIZED_BIT_EXT = MapBufferUsageMask::GL_MAP_UNSYNCHRONIZED_BIT_EXT;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT5_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT5_QCOM;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT6_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT6_QCOM;
+static const BufferBitQCOM GL_STENCIL_BUFFER_BIT7_QCOM = BufferBitQCOM::GL_STENCIL_BUFFER_BIT7_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT0_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT0_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT1_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT1_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT2_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT2_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT3_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT3_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT4_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT4_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT5_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT5_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT6_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT6_QCOM;
+static const BufferBitQCOM GL_MULTISAMPLE_BUFFER_BIT7_QCOM = BufferBitQCOM::GL_MULTISAMPLE_BUFFER_BIT7_QCOM;
+static const MemoryBarrierMask GL_ALL_BARRIER_BITS = MemoryBarrierMask::GL_ALL_BARRIER_BITS;
+static const UseProgramStageMask GL_ALL_SHADER_BITS = UseProgramStageMask::GL_ALL_SHADER_BITS;
+static const UseProgramStageMask GL_ALL_SHADER_BITS_EXT = UseProgramStageMask::GL_ALL_SHADER_BITS_EXT;
+
+} // namespace gles2
